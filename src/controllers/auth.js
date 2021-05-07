@@ -7,7 +7,7 @@ exports.signup =  (req, res) => {
  User.findOne({ email: req.body.email }).exec(async (error, user) => {
     if (user) {
       return res.status(400).json({
-        message: "User Already registered",
+        message: "Email Already Registered",
       });
     }
     let profilePicture = {
@@ -37,12 +37,12 @@ exports.signup =  (req, res) => {
       if (error) {
           console.log(error);
         return res.status(400).json({
-          message: "User not signuped",
+          message: "Signup Failed !",
         });
       }
       if (data) {
         return res.status(201).json({
-          message: "User created successfully",
+          message: "User Created Successfully !",
         });
       }
     });
@@ -72,7 +72,7 @@ exports.signin = (req, res) => {
         });
       }
     }else{
-      return res.status(400).json({message:"no user found"})
+      return res.status(400).json({message:"User doesn't exist"})
     }
   });
 };
