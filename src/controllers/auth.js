@@ -48,6 +48,40 @@ exports.signup =  (req, res) => {
     });
   });
 };
+exports.signupAuthentication =  (req, res) => {
+    const {email,username,contactNumber} = req.body;
+    if(email){
+      User.findOne({email:email}).exec(async (error,data)=>{
+        if(error){
+          res.status(400).json({message:"Invalid email" ,error:error})
+        }else if(data){
+          res.status(200).json({message:"Email exist"})
+        }else{
+          res.status(200).json({message:"Valid email"})
+        }
+      })
+    }else if(username){
+      User.findOne({username:username}).exec(async (error,data)=>{
+        if(error){
+          res.status(400).json({message:"Invalid username" , error:error})
+        }else if(data){
+          res.status(200).json({message:"Username exist"})
+        }else{
+          res.status(200).json({message:"Valid username"})
+        }
+      })
+    }else if(contactNumber){
+      User.findOne({contactNumber:contactNumber}).exec(async (error,data)=>{
+        if(error){
+          res.status(400).json({message:"Invalid mobile number" , error:error})
+        }else if(data){
+          res.status(200).json({message:"mobile number exist"})
+        }else{
+          res.status(200).json({message:"Valid mobile number"})
+        }
+      })
+    }
+};
 
 exports.signin = (req, res) => {
   User.findOne({ email: req.body.email }).exec(async (error, user) => {
@@ -55,7 +89,6 @@ exports.signin = (req, res) => {
       return res.status(400).json({ error });
     }
     if (user) {
-      console.log("email is ",req.body.email);
       const { _id, firstName, lastName, email, role, fullName , username,contactNumber,profilePicture,gender,bio,dob ,coverPicture , followers , following} = user;
       const passwordValidation = await user.authenticate(req.body.password);
       if (passwordValidation && user.role==="user") {

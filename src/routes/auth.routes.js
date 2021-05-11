@@ -1,5 +1,5 @@
 const express = require("express");
-const { signup, signin, signout} = require("../controllers/auth");
+const { signup, signin, signout, signupAuthentication} = require("../controllers/auth");
 const router = express.Router();
 const {validateSignupRequest,validateSigninRequest,isRequestValidated} = require('../Validators/auth')
 const multer = require('multer')
@@ -16,9 +16,10 @@ const storage = multer.diskStorage({
   })
    
   const upload = multer({ storage: storage })
-
+router.post("/signup/authentication",signupAuthentication);
 router.post("/signup",upload.array('profilePicture'), validateSignupRequest,isRequestValidated,signup);
 router.post("/signin",validateSigninRequest,isRequestValidated, signin);
 router.post("/signout", signout);
+
 
 module.exports = router;

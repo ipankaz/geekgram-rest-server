@@ -116,7 +116,6 @@ exports.getPosts = async (req, res) => {
 
 exports.getUserPosts = async (req, res) => {
   const {userId} = req.query
-  console.log(userId);
   const posts = await Post.find({createdBy : userId})
     .sort({ createdAt: -1 })
     .exec();
